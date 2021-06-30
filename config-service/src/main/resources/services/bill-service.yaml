@@ -8,8 +8,8 @@ spring:
   datasource:
     platform: postgres
     url: jdbc:postgresql://localhost:5432/bill_service_database
-    username: postgres
-    password: root
+    username: test_user
+    password: test_user
     driver-class-name: org.postgresql.Driver
 
 server:
