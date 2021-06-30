@@ -1,0 +1,41 @@
+plugins {
+    id 'java'
+    id 'org.springframework.boot' version '2.3.2.RELEASE'
+    id 'io.spring.dependency-management' version '1.0.8.RELEASE'
+}
+
+group 'com.javastart'
+version '1.0-SNAPSHOT'
+sourceCompatibility = '1.8'
+
+repositories {
+    mavenCentral()
+}
+
+ext {
+    set('springCloudVersion', "Hoxton.SR1")
+}
+
+jar {
+    manifest {
+        attributes(
+                'Main-Class': 'com.example.registry.RegistryApplication'
+        )
+    }
+}
+
+dependencies {
+    implementation "org.springframework.cloud:spring-cloud-starter-netflix-eureka-server"
+    implementation "org.springframework.cloud:spring-cloud-starter-config"
+    testImplementation "junit:junit:4.1"
+}
+
+dependencyManagement {
+    imports {
+        mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
+    }
+}
+
+test {
+    useJUnitPlatform()
+}
