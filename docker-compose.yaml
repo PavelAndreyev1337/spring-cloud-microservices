@@ -1,0 +1,78 @@
+version: '3.5'
+services:
+  config-service:
+    container_name: config-service
+    build: config-service
+    ports:
+      - 8001:8001
+
+  regitsry:
+    container_name: registry
+    restart: always
+    build: registry
+    ports:
+      - 8761:8761
+    depends_on:
+      - config-service
+
+  gateway:
+    container_name: gateway
+    restart: always
+    build: gateway
+    ports:
+      - 8989:8989
+    depends_on:
+      - config-service
+      - registry
+
+    account-service:
+      restart: on-failure
+      container_name: account-service
+      build: account-service
+      ports:
+        - 8081:8081
+      depends_on:
+        - config-service
+        - registry
+
+    bill-service:
+      restart: on-failure
+      container_name: bill-service
+      build: bill-service
+      ports:
+        - 8082:8082
+      depends_on:
+        - config-service
+        - registry
+
+    deposit-service:
+      restart: on-failure
+      container_name: deposit-service
+      #    image: deposit-service-test3:latest
+      build: deposit-service
+      ports:
+        - 9090:9090
+      depends_on:
+        - config-service
+        - registry
+
+    notification-service:
+      restart: on-failure
+      container_name: notification-service
+      build: notification-service
+      depends_on:
+        - config-service
+        - registry
+
+    rabbitmq: # login guest:guest
+      image: rabbitmq:3-management
+      hostname: rabbitmq
+      labels:
+        NAME: "rabbitmq"
+      ports:
+        - 5672:5672
+        - 15672:15672
+      depends_on:
+        - config-service
+        - registry
+        - account-service
