@@ -3,12 +3,14 @@ package com.example.bill.controller.dto;
 import com.example.bill.entity.Bill;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.Setter;
 
 import java.math.BigDecimal;
 import java.time.OffsetDateTime;
 
 @AllArgsConstructor
 @Getter
+@Setter
 public class BillResponseDTO {
 
     private Long billId;
